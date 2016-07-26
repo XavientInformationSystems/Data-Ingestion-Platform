@@ -1,6 +1,6 @@
 # Data Ingestion Platform(DiP) - Real time data analysis - Spark Streaming
 
-“The previous blog "https://www.linkedin.com/pulse/real-time-data-ingestion-easy-simple-co-dev-neeraj-sabharwal" showed how we can leverage the power of Apache Storm and Kafka to do real time data analytics and visualization.
+The previous blog "https://www.linkedin.com/pulse/real-time-data-ingestion-easy-simple-co-dev-neeraj-sabharwal" showed how we can leverage the power of Apache Storm and Kafka to do real time data analytics and visualization.
 
 This blog focusses on using Spark Streaming for performing real time data analysis with the help of Apache Kafka.
 
