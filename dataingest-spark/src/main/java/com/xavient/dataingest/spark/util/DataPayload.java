@@ -14,7 +14,7 @@ public class DataPayload implements Serializable {
 		String output = "";
 
 		for (String s : payload) {
-			output = output + s + "\n";
+			output = output + s.trim() + "\n";
 		}
 		return output.trim();
 	}

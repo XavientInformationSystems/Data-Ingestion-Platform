@@ -10,8 +10,8 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.xavient.dataingest.spark.constants.*;
-import com.xavient.dataingest.spark.exception.*;
+import com.xavient.dataingest.spark.constants.Constants;
+import com.xavient.dataingest.spark.exception.DataIngestException;
 
 public class MetadataParser {
 
