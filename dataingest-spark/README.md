@@ -102,7 +102,7 @@ spark-submit --class com.xavient.spark.streaming.main.SparkIngestion --master sp
 
 - The job submitted will look like this:
 
-![alt text](sparkUI.PNG "Logo Title Text 1") 
+![alt text](https://github.com/gautammarya/Data-Ingestion-Platform/blob/master/dataingest-spark/src/main/resources/images/sparkUI.png "Logo Title Text 1") 
 
 - Download the DataIngestUI source code from "www.URL" and start it using apache tomcat as shown below:
 
@@ -112,7 +112,7 @@ Commands for starting UI application
 
 - Open the UI for the application by visiting the URL "http://<tomcat-server>:<port>/DataIngestGUI/UI.jsp" , it will look like this:
 
-![alt text](dataingestUI.PNG "Logo Title Text 1") 
+![alt text](https://github.com/gautammarya/Data-Ingestion-Platform/blob/master/dataingest-spark/src/main/resources/images/dataingestUI.png "Logo Title Text 1") 
 
 - Now you have two options, either enter data manually in the message box or upload a file. Below mentioned are some sample data rows:
     - JSON
@@ -160,7 +160,7 @@ select id,price from sparkbooks;
 
 - You can draw various charts/graphs in Zeppelin as shown below:
  
-![alt text](zeppelin.PNG "Logo Title Text 1") 
+![alt text](https://github.com/gautammarya/Data-Ingestion-Platform/blob/master/dataingest-spark/src/main/resources/images/zeppelinUI.PNG "Logo Title Text 1") 
 
 #### Extras
 - Sample json and xml data can be found in the input folder under src/main/resources.
