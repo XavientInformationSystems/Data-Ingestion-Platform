@@ -15,23 +15,6 @@ Spark Streaming is the next level of the core Spark API that enables high-throug
   - Memory Partitioning
   - Extensive community support
 
-### Spark-Streaming VS Storm
-“Storm is a distributed real-time computation system”. Apache Storm is a task parallel continuous computational engine. It defines its workflows in Directed Acyclic Graphs (DAG’s) called “topologies”. These topologies run until shutdown by the user or encountering an unrecoverable failure.
-
-Storm does not natively run on top of typical Hadoop clusters, it uses Apache ZooKeeper and its own master/ minion worker processes to coordinate topologies, master and worker state, and the message guarantee semantics.
-
-Apache Storm is focused on stream processing or what some call complex event processing. Storm implements a fault tolerant method for performing a computation or pipelining multiple computations on an event as it flows into a system. 
-One might use Storm to transform unstructured data as it flows into a system into a desired format.
-
-“Apache Spark is a fast and general purpose engine for large-scale data processing”. Workflows are defined in a similar and reminiscent style of MapReduce, however, is much more capable than traditional Hadoop MapReduce. 
-
-Apache Spark has its Streaming API project that allows for continuous processing via short interval batches. Similar to Storm, Spark Streaming jobs run until shutdown by the user or encounter an unrecoverable failure.
-
-Apache Spark does not itself require Hadoop to operate. However, its data parallel paradigm requires a shared filesystem for optimal use of stable data. The stable source can range from S3, NFS, or, more typically, HDFS.
-
-Spark's RDDs are inherently immutable, Spark Streaming implements a method for "batching" incoming updates in user-defined time intervals that get transformed into their own RDDs. 
-Spark's parallel operators can then perform computations on these RDDs. This is different from Storm which deals with each event individually.
-
 #### Prerequisites
 The API has been tested on below mentioned HDP 2.4 components:
 - Apache Hadoop 2.7.1.2.4
