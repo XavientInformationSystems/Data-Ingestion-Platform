@@ -81,6 +81,7 @@
 		<checksumPolicy>warn</checksumPolicy> </releases> <snapshots> <enabled>false</enabled> 
 		<updatePolicy>never</updatePolicy> <checksumPolicy>fail</checksumPolicy> 
 		</snapshots> </repository> </repositories> -->
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.storm</groupId>
@@ -279,9 +280,4 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	<parent>
-		<groupId>com.xavient.dataingest</groupId>
-		<artifactId>dip</artifactId>
-		<version>0.0.1</version>
-	</parent>
 </project>
