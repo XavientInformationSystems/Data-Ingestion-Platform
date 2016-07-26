@@ -1,3 +1,5 @@
+/* This is the main class */
+
 package com.xavient.dataingest.spark.main;
 
 import java.io.IOException;
@@ -56,45 +58,71 @@ import scala.Tuple2;
 
 public class SparkIngestion implements Serializable {
 
-	static AppArgs appArgs;
-
-	public SparkIngestion() throws DataIngestException {
-		CmdLineParser cmdLineParser = new CmdLineParser();
-		this.appArgs = cmdLineParser.validateArgs(null);
-	}
+	private static final long serialVersionUID = 3289368866519818229L;
 
 	public static void main(String[] args) throws ParserConfigurationException, IOException, DataIngestException {
 
-		SparkIngestion ingestion = new SparkIngestion();
+		CmdLineParser cmdLineParser = new CmdLineParser();
+		final AppArgs appArgs = cmdLineParser.validateArgs(args);
 
 		System.setProperty("HADOOP_USER_NAME", appArgs.getProperty(Constants.HDFS_USER_NAME));
 
-		// SparkConf conf = new
-		// SparkConf().setAppName("SparkStreamingTest").setMaster(appArgs.getProperty(Constants.SPARK_MASTER_URL));
-
-		// SparkConf conf = new
-		// SparkConf().setAppName("SparkStreamingTest").setMaster("spark://10.5.3.166:7077");
-
-		SparkConf conf = new SparkConf().setAppName("JSTest").setMaster("local[*]");
-
+		SparkConf conf = new SparkConf().setAppName("SparkStreamingTest")
+				.setMaster(appArgs.getProperty(Constants.SPARK_MASTER_URL));
 		JavaSparkContext jsc = new JavaSparkContext(conf);
 
 		try {
 
-			JavaStreamingContext jssc = new JavaStreamingContext(jsc, new Duration(5000L));
+			JavaStreamingContext jssc = new JavaStreamingContext(jsc, new Duration(500));
 
 			JavaPairReceiverInputDStream<String, String> stream = KafkaUtils.createStream(jssc,
 					appArgs.getProperty(Constants.ZK_HOST) + ":" + appArgs.getProperty(Constants.ZK_PORT), "group",
-					getKafkaTopics());
+					getKafkaTopics(appArgs));
 
 			JavaDStream<String> lines = stream.map(tuple -> tuple._2);
 
 			JavaDStream<DataPayload> dataPayLoadDStream = payloadIngestor(lines);
 
-			JavaHBaseContext hbaseContext = new JavaHBaseContext(jsc, getConf());
+			JavaHBaseContext hbaseContext = new JavaHBaseContext(jsc, getConf(appArgs));
 
 			hbaseContext.streamBulkPut(dataPayLoadDStream,
-					TableName.valueOf(appArgs.getProperty(Constants.HBASE_TABLENAME)), new PutFunction());
+					TableName.valueOf(appArgs.getProperty(Constants.HBASE_TABLENAME)),
+					new Function<DataPayload, Put>() {
+
+						private static final long serialVersionUID = -7696995553026962751L;
+
+						@Override
+						public Put call(DataPayload v) throws Exception {
+
+							Put put = null;
+							String payload = v.toString();
+							String[] columnnames = appArgs.getProperty(Constants.HBASE_COL_NAMES).split("\\|");
+
+							String[] ls = payload.split("\n");
+
+							int index = 0;
+
+							for (String s : ls) {
+
+								String[] individualitems = s.split("\\|");
+
+								put = new Put(
+										Bytes.toBytes(Long.toString(System.currentTimeMillis()) + individualitems[0]));
+								for (String cn : columnnames) {
+									put.addColumn(Bytes.toBytes(appArgs.getProperty(Constants.HBASE_COL_FAMILIES)),
+											Bytes.toBytes(cn), Bytes.toBytes(individualitems[index]));
+
+									index++;
+
+								}
+
+								index = 0;
+							}
+
+							return put;
+						}
+
+					});
 
 			SparkHdfsIngestor.hdfsDataWriter(dataPayLoadDStream, appArgs);
 
@@ -107,51 +135,7 @@ public class SparkIngestion implements Serializable {
 		}
 	}
 
-	public static class PutFunction implements Function<DataPayload, Put> {
-
-		static AppArgs appArgs;
-
-		public PutFunction() throws DataIngestException {
-			CmdLineParser cmdLineParser = new CmdLineParser();
-			this.appArgs = cmdLineParser.validateArgs(null);
-		}
-
-		private static final long serialVersionUID = 1L;
-
-		public Put call(DataPayload v) throws Exception {
-
-			/*
-			 * System.out.println("THE VALUE OF V==========>" + v.toString());
-			 */
-
-			// String columnna =
-			// "id-author-title-genre-price-publish_date-description";
-			String[] columnnames = appArgs.getProperty(Constants.HBASE_COL_NAMES).split("\\|");
-			String[] ls = v.toString().split("\n");
-			int index = 0;
-			Put put = null;
-			for (String s : ls) {
-
-				String[] individualitems = s.split("\\|");
-
-				put = new Put(Bytes.toBytes(Long.toString(System.currentTimeMillis()) + individualitems[0]));
-				for (String cn : columnnames) {
-					put.addColumn(Bytes.toBytes(appArgs.getProperty(Constants.HBASE_COL_FAMILIES)), Bytes.toBytes(cn),
-							Bytes.toBytes(individualitems[index]));
-
-					index++;
-
-				}
-				// table.put(put);
-				index = 0;
-			}
-
-			return put;
-		}
-
-	}
-
-	private static Configuration getConf() {
+	private static Configuration getConf(AppArgs appArgs) {
 		Configuration conf = HBaseConfiguration.create();
 		conf.set("hbase.master",
 				appArgs.getProperty(Constants.ZK_HOST) + ":" + appArgs.getProperty(Constants.HBASE_MASTER));
@@ -159,7 +143,7 @@ public class SparkIngestion implements Serializable {
 		conf.set("hbase.zookeeper.quorum",
 				appArgs.getProperty(Constants.ZK_HOST) + ":" + appArgs.getProperty(Constants.ZK_PORT));
 		conf.set("zookeeper.znode.parent", "/hbase-unsecure");
-		// conf.set(TableInputFormat.INPUT_TABLE, "testtable");
+
 		HBaseAdmin admin;
 		try {
 			admin = new HBaseAdmin(conf);
@@ -179,7 +163,7 @@ public class SparkIngestion implements Serializable {
 		return conf;
 	}
 
-	private static Map<String, Integer> getKafkaTopics() {
+	private static Map<String, Integer> getKafkaTopics(AppArgs appArgs) {
 		Map<String, Integer> topics = new HashMap<String, Integer>();
 		topics.put(appArgs.getProperty(Constants.KAFKA_TOPIC), 1);
 		return topics;
@@ -188,7 +172,7 @@ public class SparkIngestion implements Serializable {
 	private static JavaDStream<DataPayload> payloadIngestor(JavaDStream<String> lines) {
 		JavaDStream<DataPayload> dataPayLoadDStream = lines.map(new Function<String, DataPayload>() {
 
-			// DataPayload dataPayload = new DataPayload();
+			private static final long serialVersionUID = 8246041326936027578L;
 
 			@Override
 			public DataPayload call(String input) throws Exception {
