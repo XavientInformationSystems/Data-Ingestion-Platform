@@ -2,6 +2,7 @@ package com.xavient.dataingest.spark.constants;
 
 public class Constants {
 
+	// Constants
 	public static final String CONFIG = "config";
 	public static final String REWIND = "rewind";
 	public static final String KAFKA_TOPIC = "kafka.topic";
