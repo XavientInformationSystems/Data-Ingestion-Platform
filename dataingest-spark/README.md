@@ -78,7 +78,7 @@ mvn clean package
 ```
 
 - Once the code has being successfully compiled, go to the target directory and locate a jar by the name "uber-Spark-Kafka-0.0.1-SNAPSHOT"
-- Submit the jar file to spark to start your streaming application using the below command:
+- Copy the jar file in hdfs and then submit it to spark for initiating your streaming application using the below command:
 
 ```
 spark-submit --class com.xavient.spark.streaming.main.SparkIngestion --master spark://10.5.3.166:6066 --deploy-mode cluster hdfs://10.5.3.166:8020/user/hdfs/uber-Spark-Kafka-0.0.1-SNAPSHOT.jar
