@@ -90,11 +90,8 @@ spark-submit --class com.xavient.spark.streaming.main.SparkIngestion --master sp
 
 ![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-spark/src/main/resources/images/sparkUI.png "Logo Title Text 1") 
 
-- Download the DataIngestUI source code from "www.URL" and start it using apache tomcat as shown below:
+- Download the DataIngestUI source code from https://github.com/XavientInformationSystems/DiP-DataIngestionPlatformUI and start it using apache tomcat.
 
-```
-Commands for starting UI application
-```
 
 - Open the UI for the application by visiting the URL "http://<tomcat-server>:<port>/DataIngestGUI/UI.jsp" , it will look like this:
 
