@@ -66,7 +66,7 @@ hadoop fs -chmod -R 777 /user/spark/sparkstreaming
 ./kafka-topics.sh --create --topic visits --zookeeper <zookeeper-server>:<port> --replication-factor 1 --partition 5
 ```
 
-- Download the source code from <<<TODO>>> and compile the code using below commands:
+- Download the source code from https://github.com/XavientInformationSystems/Data-Ingestion-Platform/tree/master/dataingest-spark and compile the code using below commands:
 
 ```
 # Decompress the zip file.
