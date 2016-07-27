@@ -28,54 +28,73 @@ The API has been tested on below mentioned HDP 2.4 components:
 
 #### DiP High Level Process Workflow
 
-![alt text](https://[]/architecture.PNG "Application Architecture") 
+![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-apex/src/main/resources/images/Architecture.JPG "Application Architecture") 
 
-- Input to the application can be fed from a user interface that allows you either enter data manually or upload the data in XML, JSON or CSV file format for bulk processing
-- Data Ingested is published by the Kafka broker which streams the data to Kafka Input Operator which acts as consumer across the DAG
+- Input to the application can be fed from a user interface that allows you either enter data manually or upload the data in XML, JSON file format for bulk processing
+- Data Ingested is published by the Kafka broker which streams the data to Kafka Input Operator acts as consumer across the DAG
 - Once the message type is identified, the content of the message is extracted and is sent to different Operators for persistence - HBase Operator / HDFS Operator / Console Operator
 - Hive external table provides data storage through HDFS and Phoenix provides an SQL interface for HBase tables
 - Reporting and visualization  of data is done through Zeppelin
 
 ### STEPS
 
+#### Run as root user. Create a group
+groupadd -g GID hadoopusers
+
+#### Add user to that group
+useradd -g hadoopusers -u UID dtadmin
+
+#### Set password for that user
+passwd dtadmin
+
+##### Run as hadoop superuser(hdfs)
+hadoop dfs -mkdir -p /user/dtadmin/output
+
+#### Give permission to "sparkstreaming" folder as it required later by user "hive"
+hadoop fs -chmod -R 777 /user/dtadmin/output
+
 Install Apache Apex to Hadoop cluster: http://docs.datatorrent.com/installation/
+
+Check Apache Apex UI for verification. Default port: 9090.
 
 - Go to $KAFKA_INSTALL_DIR/bin and create a Kafka topic named "apexTest" using the below mentioned command
 
 ./kafka-topics.sh --create --topic apexTest --zookeeper zookeeper-server:port --replication-factor 1 --partition 5
 
-- Download the data ingestion source code from https://[] and compile the code using below commands:
+- Download the data ingestion source code from https://github.com/XavientInformationSystems/Data-Ingestion-Platform and compile the code using below commands:
 
 ```
 ### Decompress the zip file.
 
-unzip [].zip
+unzip Data-Ingestion-Platform-master.zip
 
-### Compile the code
+### Compile and package the source using Maven
 
-cd []
+cd Data-Ingestion-Platform-master
 mvn clean package
 ```
 
-- Once the code has being successfully compiled, go to the target directory and locate a jar by the name "[]"
+- Once the code has being successfully compiled, go to the dataingest-apex/target directory and locate Application Package Archive (.apa) file "dip.apex-0.0.1.apa"
 
 - Submit the .apa file to Apache Apex to start your Apex Streaming Application using Apex UI http://<server>:<port 9090-by-default> as shown below:
 
-- Once you have sumbmitted the jar , navigate to the Storm UI at http://storm-ui-server:port/index.html
+![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-apex/src/main/resources/images/Apex%20UI%20Application%20Upload.JPG "Apex UI Application Upload")
 
-- The topology visualization will look like this:
+- After .apa file submission the application should appear on Apex UI as below
 
-![alt text](https://github.com/mohnkhan/DiP-DataIngestionPlatform/blob/master/src/main/resources/images/toplogy.PNG "Logo Title Text 1") 
+![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-apex/src/main/resources/images/Application%20Submitted.JPG "Application Submitted")
 
-- Download the DataIngestUI source code from https://github.com/mohnkhan/DiP-DataIngestionPlatformUI and start it using apache tomcat as shown below:
+- The Directed Acyclic Graph should look like below:
+
+![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-apex/src/main/resources/images/DAG.JPG "Directed Acyclic Graph") 
+
+- Download the DataIngestUI source code from https://github.com/XavientInformationSystems/DiP-DataIngestionPlatformUI and start it using apache tomcat as shown below:
 
 ```
 Commands for starting UI application
 ```
 
-- Open the UI for the application by visiting the URL "http://tomcat-server:port/DataIngestGUI/UI.jsp" , it will look like this:
-
-![alt text](https://github.com/mohnkhan/DiP-DataIngestionPlatform/blob/master/src/main/resources/images/file-picker.PNG "File Picker") 
+- Open the UI for the application by visiting the URL "http://tomcat-server:port/DataIngestGUI/UI.jsp".
 
 - Now you have two options, either enter data manually in the message box or upload a file. Below mentioned are some sample data rows:
     - JSON
@@ -90,12 +109,12 @@ Commands for starting UI application
 - Now create an external table in Hive using the below command so as the view the data in zeppelin using below command:
 
 ```
-CREATE EXTERNAL TABLE IF NOT EXISTS apexbooks(id STRING, author STRING, title STRING, genre STRING, price STRING, publish_date STRING, description STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' STORED AS TEXTFILE LOCATION '/user/storm/output/';
+CREATE EXTERNAL TABLE IF NOT EXISTS apexbooks(author STRING, price STRING, genre STRING, description STRING, id STRING, title STRING,   publish_date STRING) ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' STORED AS TEXTFILE LOCATION '/user/dtadmin/output';
 ```
 - Create a view in phoenix by accessing "sqlline.py" to access the data written in Hbase using below command-
 
 ```
-CREATE VIEW "apexbooksview"(pid VARCHAR PRIMARY KEY , "books"."author" VARCHAR,"books"."description" VARCHAR ,"books"."genre" VARCHAR ,"books"."id" VARCHAR ,"books"."price" VARCHAR , "books"."publish_date" VARCHAR, "books"."title" VARCHAR )AS SELECT * FROM "books";
+CREATE VIEW "apexbooksview"(pid VARCHAR PRIMARY KEY , "books"."author" VARCHAR,"books"."description" VARCHAR ,"books"."genre" VARCHAR ,"books"."id" VARCHAR ,"books"."price" VARCHAR , "books"."publish_date" VARCHAR, "books"."title" VARCHAR)AS SELECT * FROM "apexbooks";
 ```
 - To use phoenix interpreter in Zeppelin, open the Zeppelin URL at http://zeppelin-server:port/#/
     - Create a new Phoenix notebook to connect to Phoenix and visualize the data.
@@ -120,5 +139,5 @@ select id,price from apexbooksview;
 
 - You can draw various charts/graphs in Zeppelin as shown below:
  
-![alt text](https://[]/zeppelin-reports.PNG "Reports")
+![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-apex/src/main/resources/images/Zeppelin%20Report.JPG "Zeppelin Reports")
 
