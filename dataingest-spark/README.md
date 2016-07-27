@@ -52,6 +52,9 @@ useradd -g hadoopusers -u UID spark
 passwd spark
 
 # Run as hadoop superuser(hdfs)
+hdfs dfs -mkdir /user/spark
+hdfs dfs -chown -R spark:hadoopusers /user/spark
+hdfs dfsadmin -refreshUserToGroupsMappings
 hadoop dfs -mkdir /user/spark/sparkstreaming
 
 # Give permission to "sparkstreaming" folder as it required later by user "hive"
