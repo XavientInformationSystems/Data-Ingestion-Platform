@@ -85,7 +85,7 @@ public class FlinkStreamProcessor {
 		}).name("Map Data");
 
 		System.setProperty("HADOOP_USER_NAME", appArgs.getProperty(Constants.HADOOP_USER_NAME));
-		//HDFS Sink to write the data to the HDFS
+		// HDFS Sink to write the data to the HDFS
 		RollingSink sink = new RollingSink<String>(appArgs.getProperty(Constants.FLINK_OUTPUT_PATH));
 		sink.setBucketer(new DateTimeBucketer("yyyy-MM-dd--HH-mm-ss"));
 
@@ -95,7 +95,7 @@ public class FlinkStreamProcessor {
 
 		dp.addSink(sink).name("HDFS Sink");
 
-		//FLink writes to the HBASE using the HBASE output format
+		// FLink writes to the HBASE using the HBASE output format
 		dp.writeUsingOutputFormat(new HBaseOutputFormat<DataPayload>()).name("HBASE Sink");
 
 		env.execute();
