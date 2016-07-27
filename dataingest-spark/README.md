@@ -30,7 +30,7 @@ The API has been tested on below mentioned HDP 2.4 components:
 
 #### High Level Process Workflow with Spark-Streaming
 
-![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-spark/src/main/resources/images/architecture.png "Logo Title Text 1") 
+![alt text](temp "Logo Title Text 1") 
 
 - Input to the application can be fed from a user interface that allows you either enter data manually or upload the data in XML, JSON or CSV file format for bulk processing
 - Data ingested is published by the Kafka broker which streams the data to Kafka consumer process
