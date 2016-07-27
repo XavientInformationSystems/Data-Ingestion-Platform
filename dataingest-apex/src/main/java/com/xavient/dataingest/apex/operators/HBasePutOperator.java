@@ -32,9 +32,7 @@ public class HBasePutOperator extends AbstractHBaseWindowPutOutputOperator<Map<S
     logger.debug("Input Map: {}", map);
     Put put = new Put((System.currentTimeMillis() + map.get(Constants.ROW_KEY)).getBytes());
     for (Entry<String, String> entry : map.entrySet()) {
-      if (!entry.getKey().equals(Constants.ROW_KEY)) {
-        put.addColumn(Constants.COLUMN_FAMILY.getBytes(), entry.getKey().getBytes(), entry.getValue().getBytes());
-      }
+      put.addColumn(Constants.COLUMN_FAMILY.getBytes(), entry.getKey().getBytes(), entry.getValue().getBytes());
     }
     return put;
   }
