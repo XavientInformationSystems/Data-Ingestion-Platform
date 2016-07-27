@@ -88,13 +88,11 @@ mvn clean package
 
 ![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-apex/src/main/resources/images/DAG.JPG "Directed Acyclic Graph") 
 
-- Download the DataIngestUI source code from https://github.com/XavientInformationSystems/DiP-DataIngestionPlatformUI and start it using apache tomcat as shown below:
-
-```
-Commands for starting UI application
-```
+- Download the DataIngestUI source code from https://github.com/XavientInformationSystems/DiP-DataIngestionPlatformUI and start it using apache tomcat.
 
 - Open the UI for the application by visiting the URL "http://tomcat-server:port/DataIngestGUI/UI.jsp".
+
+![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-apex/src/main/resources/images/Data%20Ingest%20UI.JPG "Directed Acyclic Graph")
 
 - Now you have two options, either enter data manually in the message box or upload a file. Below mentioned are some sample data rows:
     - JSON
