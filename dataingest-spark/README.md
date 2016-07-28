@@ -30,7 +30,7 @@ The API has been tested on below mentioned HDP 2.4 components:
 
 #### High Level Process Workflow with Spark-Streaming
 
-![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-spark/src/main/resources/images/architecture.png "Logo Title Text 1") 
+![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-spark/src/main/resources/images/SparkArchitecture.PNG "Logo Title Text 1") 
 
 - Input to the application can be fed from a user interface that allows you either enter data manually or upload the data in XML, JSON or CSV file format for bulk processing
 - Data ingested is published by the Kafka broker which streams the data to Kafka consumer process
@@ -66,7 +66,7 @@ hadoop fs -chmod -R 777 /user/spark/sparkstreaming
 ./kafka-topics.sh --create --topic visits --zookeeper <zookeeper-server>:<port> --replication-factor 1 --partition 5
 ```
 
-- Download the source code from <<<TODO>>> and compile the code using below commands:
+- Download the source code from https://github.com/XavientInformationSystems/Data-Ingestion-Platform/tree/master/dataingest-spark and compile the code using below commands:
 
 ```
 # Decompress the zip file.
@@ -78,7 +78,7 @@ mvn clean package
 ```
 
 - Once the code has being successfully compiled, go to the target directory and locate a jar by the name "uber-Spark-Kafka-0.0.1-SNAPSHOT"
-- Submit the jar file to spark to start your streaming application using the below command:
+- Copy the jar file in hdfs and then submit it to spark for initiating your streaming application using the below command:
 
 ```
 spark-submit --class com.xavient.spark.streaming.main.SparkIngestion --master spark://10.5.3.166:6066 --deploy-mode cluster hdfs://10.5.3.166:8020/user/hdfs/uber-Spark-Kafka-0.0.1-SNAPSHOT.jar

@@ -32,7 +32,7 @@ The API has been tested on below mentioned HDP 2.4 components:
 
 #### High Level Process Workflow with Flink-Streaming
 
-![alt text](https://github.com/sumit88/Data-Ingestion-Platform/blob/master/dataingest-flink/src/main/resources/images/Architecture.PNG "Logo Title Text 1") 
+![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-flink/src/main/resources/images/FlinkArchitecture.PNG "Logo Title Text 1") 
 
 - Input to the application can be fed from a user interface that allows you either enter data manually or upload the data in XML, JSON or CSV file format for bulk processing
 - Data ingested is published by the Kafka broker which streams the data to Kafka consumer process
@@ -91,7 +91,7 @@ Use the flink dash board to submit the job through UI  or fill in the zookeeper 
 
 - The job submitted will look like this:
 
-![alt text](https://github.com/sumit88/Data-Ingestion-Platform/blob/master/dataingest-flink/src/main/resources/images/FlinkDashBoard.PNG "Logo Title Text 1") 
+![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-flink/src/main/resources/images/FlinkDashBoard.PNG "Logo Title Text 1") 
 
 - Download the DataIngestUI source code from "www.URL" and start it using apache tomcat as shown below:
 
@@ -101,7 +101,7 @@ Commands for starting UI application
 
 - Open the UI for the application by visiting the URL "http://<tomcat-server>:<port>/DataIngestGUI/UI.jsp" , it will look like this:
 
-![alt text](https://github.com/sumit88/Data-Ingestion-Platform/blob/master/dataingest-flink/src/main/resources/images/DataIngestUI.PNG "Logo Title Text 1") 
+![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-flink/src/main/resources/images/DataIngestUI.PNG "Logo Title Text 1") 
 
 - Now you have two options, either enter data manually in the message box or upload a file. Below mentioned are some sample data rows:
     - JSON
@@ -149,7 +149,7 @@ select id,price from sparkbooks;
 
 - You can draw various charts/graphs in Zeppelin as shown below:
  
-![alt text](https://github.com/sumit88/Data-Ingestion-Platform/blob/master/dataingest-flink/src/main/resources/images/ZeppelinView.PNG "Logo Title Text 1") 
+![alt text](https://github.com/XavientInformationSystems/Data-Ingestion-Platform/blob/master/dataingest-flink/src/main/resources/images/ZeppelinView.PNG "Logo Title Text 1") 
 
 #### Extras
 - Sample json and xml data can be found in the input folder under src/main/resources.
