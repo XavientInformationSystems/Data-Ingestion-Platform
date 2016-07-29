@@ -22,6 +22,7 @@ import com.datatorrent.api.DefaultInputPort;
 import com.datatorrent.api.DefaultOutputPort;
 import com.datatorrent.common.util.BaseOperator;
 import com.xavient.dataingest.apex.constants.Constants;
+import com.xavient.dataingest.apex.util.ProcessTSVStream;
 import com.xavient.dataingest.apex.util.ProcessXMLStream;
 
 public class ClassifierOperator extends BaseOperator {
@@ -64,8 +65,12 @@ public class ClassifierOperator extends BaseOperator {
         } else if (isXML(t)) {
           processXML(t);
         } else {
-          errorPort.emit(t);
+        	processTSV(t);
+        	
+       /*   errorPort.emit(t);
           errorTuples++;
+       */
+        
         }
       } catch (Exception ex) {
         logger.error("Error in expression eval: {}", ex.getMessage());
@@ -91,6 +96,16 @@ public class ClassifierOperator extends BaseOperator {
       mapTupleOutPort.emit(tuple);
       tuplesCount++;
     }
+    
+    
+    private void processTSV(Object t) throws IOException, JsonProcessingException {
+        List<Map<String, String>> xmldata = new  ProcessTSVStream().getTSVData(t.toString());
+        for (Map<String, String> valuesMap : xmldata) {
+          strTupleOutPort.emit(StringUtils.join(valuesMap.values(), Constants.FILE_DELIMITER) + NL);
+          mapTupleOutPort.emit(valuesMap);
+          tuplesCount++;
+        }
+      }
 
     public Map<String, String> getMetadata(JsonNode node) {
       Map<String, String> tuple = new HashMap<>();

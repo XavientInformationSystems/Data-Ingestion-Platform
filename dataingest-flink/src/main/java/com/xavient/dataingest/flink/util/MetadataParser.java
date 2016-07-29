@@ -16,7 +16,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.xavient.dataingest.flink.constants.Constants;
 import com.xavient.dataingest.flink.exception.DataIngestException;
-import com.xavient.dataingest.flink.util.ProcessSTSVStream;
+import com.xavient.dataingest.flink.util.ProcessTSVStream;
 import com.xavient.dataingest.flink.util.ProcessXMLStream;
 
 public class MetadataParser {
@@ -32,7 +32,7 @@ public class MetadataParser {
 			} else if ((str.startsWith("<"))) {
 				objs = new ProcessXMLStream().getXMLData(str);
 			} else {
-				objs = new ProcessSTSVStream().getTSVData(str);
+				objs = new ProcessTSVStream().getTSVData(str);
 			}
 
 			return objs;
