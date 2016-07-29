@@ -26,7 +26,7 @@ public class MetadataParser {
 			} else if ((str.startsWith("<"))) {
 				objs = new ProcessXMLStream().getXMLData(str);
 			} else {
-				objs = new ProcessSTSVStream().getTSVData(str);
+				objs = new ProcessTSVStream().getTSVData(str);
 			}
 
 			return objs;

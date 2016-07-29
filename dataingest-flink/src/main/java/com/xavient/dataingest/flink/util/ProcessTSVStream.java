@@ -1,9 +1,10 @@
-package com.xavient.dataingest.spark.util;
+package com.xavient.dataingest.flink.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProcessSTSVStream {
+
+public class ProcessTSVStream {
 
 	public List<Object> tsvElements = new ArrayList<Object>();
 
