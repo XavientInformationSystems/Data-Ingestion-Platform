@@ -1,4 +1,4 @@
-# Data Ingestion Platform(DiP) - Using Apache Apex
+# Data Ingestion Platform(DiP) - Apache Apex
 
 "Data Ingestion Platform utilizes the true power of the latest edge-cutting technologies in the big data ecosystem to achieve almost real time data analytics and visualization".
 
