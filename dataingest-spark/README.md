@@ -63,7 +63,7 @@ hadoop fs -chmod -R 777 /user/spark/sparkstreaming
 
 - Go to $KAFKA_INSTALL_DIR/bin and create a Kafka topic named "visits" using the below mentioned command
 ```
-./kafka-topics.sh --create --topic visits --zookeeper <zookeeper-server>:<port> --replication-factor 1 --partition 5
+./kafka-topics.sh --create --topic spark_topic --zookeeper <zookeeper-server>:<port> --replication-factor 1 --partition 5
 ```
 
 - Download the source code from https://github.com/XavientInformationSystems/Data-Ingestion-Platform/tree/master/dataingest-spark and compile the code using below commands:
@@ -77,11 +77,11 @@ cd spark-kafka
 mvn clean package
 ```
 
-- Once the code has being successfully compiled, go to the target directory and locate a jar by the name "uber-Spark-Kafka-0.0.1-SNAPSHOT"
+- Once the code has being successfully compiled, go to the target directory and locate a jar by the name "uber-dip.spark-1.0.0.jar"
 - Copy the jar file in hdfs and then submit it to spark for initiating your streaming application using the below command:
 
 ```
-spark-submit --class com.xavient.spark.streaming.main.SparkIngestion --master spark://10.5.3.166:6066 --deploy-mode cluster hdfs://10.5.3.166:8020/user/hdfs/uber-Spark-Kafka-0.0.1-SNAPSHOT.jar
+spark-submit --class com.xavient.dataingest.spark.main.SparkIngestion --master spark://<master-ip>:<port> --deploy-mode cluster hdfs://<ip>:<port>/user/hdfs/uber-dip.spark-1.0.0.jar
 ```
 
 - Once you have sumbmitted the jar , navigate to the Spark UI at http://<spark-ui-server>:<port>/index.html
