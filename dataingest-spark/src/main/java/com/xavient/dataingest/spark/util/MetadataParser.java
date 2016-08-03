@@ -20,12 +20,15 @@ public class MetadataParser {
 	public static List<List<Object>> parse(String str) throws DataIngestException {
 		List<List<Object>> objs = new ArrayList<>();
 		try {
-			if (!(str.startsWith("<"))) {
+			if ((str.startsWith("{"))) {
 				JsonNode rootNode = m.readTree(str);
 				objs.add(getMetadata(rootNode));
-			} else {
+			} else if ((str.startsWith("<"))) {
 				objs = new ProcessXMLStream().getXMLData(str);
+			} else {
+				objs = new ProcessTSVStream().getTSVData(str);
 			}
+
 			return objs;
 		} catch (JsonProcessingException e) {
 			throw new DataIngestException(e.getMessage());

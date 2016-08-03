@@ -16,6 +16,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.xavient.dataingest.flink.constants.Constants;
 import com.xavient.dataingest.flink.exception.DataIngestException;
+import com.xavient.dataingest.flink.util.ProcessTSVStream;
+import com.xavient.dataingest.flink.util.ProcessXMLStream;
 
 public class MetadataParser {
 	  
@@ -24,14 +26,17 @@ public class MetadataParser {
 	  public static List<List<Object>> parse(String str) throws DataIngestException {
 		  List<List<Object>> objs = new ArrayList<>();
 	    try {
-	      if (!(str.startsWith("<"))) {
-	        JsonNode rootNode = m.readTree(str);
-	        objs.add(getMetadata(rootNode));
-	      } else {
-	    	  objs = new ProcessXMLStream().getXMLData(str);
-	      }
-	      return objs;
-	    } catch (JsonProcessingException e) {
+			if ((str.startsWith("{"))) {
+				JsonNode rootNode = m.readTree(str);
+				objs.add(getMetadata(rootNode));
+			} else if ((str.startsWith("<"))) {
+				objs = new ProcessXMLStream().getXMLData(str);
+			} else {
+				objs = new ProcessTSVStream().getTSVData(str);
+			}
+
+			return objs;
+		} catch (JsonProcessingException e) {
 	      throw new DataIngestException(e.getMessage());
 	    } catch (IOException e) {
 	      throw new DataIngestException(e.getMessage());

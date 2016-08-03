@@ -34,8 +34,8 @@ public class FlinkStreamProcessor {
 		AppArgs appArgs = parser.validateArgs(args);
 
 		// This line is used to submit the flink job to the environment
-		StreamExecutionEnvironment env = StreamExecutionEnvironment.createRemoteEnvironment("10.5.3.166", 35253,
-				"D:/Projects/FlinkStreaming/FlinkStreaming/target/uber-dataingest-1.0.0.jar");
+		StreamExecutionEnvironment env = StreamExecutionEnvironment.createRemoteEnvironment("10.5.3.185", 53902,
+				"D:/git/Data-Ingestion-Platform/dataingest-flink/target/uber-dip.flink-1.0.0.jar");
 
 		/*
 		 * Uncomment the below line and comment the above if submitting the job
