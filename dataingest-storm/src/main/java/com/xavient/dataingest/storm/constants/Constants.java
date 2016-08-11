@@ -25,7 +25,28 @@ public class Constants {
 	public static final String HBASE_COL_NAMES = "hbase.col.names";
 	public static final String DELIMITER_PREFIX = "\\";
 	
-  public static final String[] metadataJsonAttributes = { "id", "author", "title", "genre", "price", "publish_date", "description" };
+  /*public static final String[] metadataJsonAttributes = { "id", "author", "title", "genre", "price", "publish_date", "description" };
   public static final String[] metadataXMLAttributes = { "id", "author", "title", "genre", "price", "publish_date", "description" };
+*/
+	public static final String[] metadataJsonAttributes = { "activity_time"  ,
+			 "activity_user_id"  ,
+			 "activity_country_id"  ,
+			 "activity_state_province"  ,
+			 "activity_browser_id"  ,
+			 "activity_os_id"  ,
+			 "activity_type"  ,
+			 "activity_sub_type"  ,
+			 "activity_quantity"  ,
+			 "activity_other_data"  };
 
+	public static final String[] metadataXMLAttributes = { "activity_time"  ,
+			 "activity_user_id"  ,
+			 "activity_country_id"  ,
+			 "activity_state_province"  ,
+			 "activity_browser_id"  ,
+			 "activity_os_id"  ,
+			 "activity_type"  ,
+			 "activity_sub_type"  ,
+			 "activity_quantity"  ,
+			 "activity_other_data" };
 }

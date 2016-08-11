@@ -23,7 +23,7 @@ import com.xavient.dataingest.apex.constants.Constants;
 
 public class ProcessXMLStream {
 
-  public static final String complexElements = "book";
+  public static final String complexElements = "adData";
   public static HashMap<String, String> complexList = new HashMap<String, String>();
 
   static {
@@ -50,7 +50,7 @@ public class ProcessXMLStream {
       // Element root = document.getDocumentElement();
 
       // Get all employees
-      NodeList nList = document.getElementsByTagName("book");
+      NodeList nList = document.getElementsByTagName("adData");
 
       xmldata = new ArrayList<>();
       for (int temp = 0; temp < nList.getLength(); temp++) {

@@ -22,7 +22,7 @@ import com.xavient.dataingest.spark.constants.Constants;
 
 public class ProcessXMLStream {
 
-	public static final String complexElements = "book";
+	public static final String complexElements = "adData";
 	public ArrayList<Object> xmlElements = new ArrayList<Object>(Constants.metadataXMLAttributes.length);
 	public List<List<Object>> xmldata = new ArrayList<List<Object>>();
 	public HashMap<String, String> complexList = new HashMap<String, String>();
@@ -52,7 +52,7 @@ public class ProcessXMLStream {
 			Element root = document.getDocumentElement();
 
 			// Get all employees
-			NodeList nList = document.getElementsByTagName("book");
+			NodeList nList = document.getElementsByTagName("adData");
 
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 				xmlElements = new ArrayList<Object>(Constants.metadataXMLAttributes.length);
