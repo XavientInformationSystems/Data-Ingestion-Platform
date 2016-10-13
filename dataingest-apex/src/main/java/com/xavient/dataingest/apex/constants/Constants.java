@@ -13,7 +13,7 @@ public class Constants {
   public static final String ZK_QUORUM = "10.5.3.166";
   
   // HBase Table properties
-  public static final String TABLE_NAME = "apexbooks";
+  public static final String TABLE_NAME = "twitter";
   public static final String COLUMN_FAMILY = "books";
   public static final String ROW_KEY = "id";
   

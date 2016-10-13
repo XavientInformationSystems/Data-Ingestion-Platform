@@ -11,6 +11,7 @@
 
 	<groupId>com.xavient.dataingest.apex</groupId>
 	<artifactId>dip.apex</artifactId>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<!-- change these to the appropriate values -->
@@ -242,6 +243,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.xavient.dataingest.common</groupId>
+			<artifactId>dip.common</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.apex</groupId>
 			<artifactId>malhar-kafka</artifactId>
 			<version>${malhar.version}</version>
@@ -292,10 +298,6 @@
 			<version>${apex.version}</version>
 			<scope>test</scope>
 			<exclusions>
-				<exclusion>
-					<artifactId>jdk.tools</artifactId>
-					<groupId>jdk.tools</groupId>
-				</exclusion>
 				<exclusion>
 					<groupId>org.apache.hadoop</groupId>
 					<artifactId>hadoop-auth</artifactId>
@@ -357,10 +359,6 @@
 			<version>1.1.2</version>
 			<!-- <scope>provided</scope> -->
 			<exclusions>
-				<exclusion>
-					<groupId>jdk.tools</groupId>
-					<artifactId>jdk.tools</artifactId>
-				</exclusion>
 				<exclusion>
 					<groupId>org.apache.hadoop</groupId>
 					<artifactId>hadoop-yarn-common</artifactId>

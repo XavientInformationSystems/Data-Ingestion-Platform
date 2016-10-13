@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<configuration>
+  <!-- 
+  <property>
+    <name>dt.application.{appName}.operator.{opName}.prop.{propName}</name>
+    <value>some-default-value (if value is not specified, it is required from the user or custom config when launching)</value>
+  </property>
+  -->
+  <!-- Console Operator Properties -->
+  <property>
+    <name>dt.application.ApexStreamProcessing.operator.consoleOut.prop.stringFormat</name>
+    <value>Kafka Consumer:: %s</value>
+  </property>
+  
+  <!-- Kakfa Read operator Properties -->
+  <property>
+    <name>dt.application.ApexStreamProcessing.operator.kafkaIn.prop.initialPartitionCount</name>
+    <value>1</value>
+  </property>
+  <property>
+    <name>dt.application.ApexStreamProcessing.operator.kafkaIn.prop.initialOffset</name>
+    <value>EARLIEST</value>
+  </property>
+  <property>
+    <name>dt.application.ApexStreamProcessing.operator.kafkaIn.prop.topics</name>
+    <value>apexTest</value>
+  </property>
+  <property>
+    <name>dt.application.ApexStreamProcessing.operator.kafkaIn.prop.clusters</name>
+    <value>10.5.3.166:6667</value>  <!-- broker (NOT zookeeper) address -->
+  </property>
+  
+  <!-- File Writer operator properties -->
+  <property>
+    <name>dt.application.ApexStreamProcessing.operator.fileOut.prop.filePath</name>
+    <!-- <value>/mnt/output</value> -->
+    <value>hdfs://10.5.3.166:8020/user/dtadmin/output</value>
+  </property>
+  <property>
+    <name>dt.application.ApexStreamProcessing.operator.fileOut.prop.baseName</name>
+    <value>test</value>
+  </property>
+  <property>
+    <name>dt.application.ApexStreamProcessing.operator.fileOut.prop.maxLength</name>
+    <value>1024</value>
+  </property>
+  <property>
+    <name>dt.application.ApexStreamProcessing.operator.fileOut.prop.rotationWindows</name>
+    <value>4</value>
+  </property>
+</configuration>
+

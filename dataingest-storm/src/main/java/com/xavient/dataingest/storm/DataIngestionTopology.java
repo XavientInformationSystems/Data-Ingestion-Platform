@@ -1,5 +1,6 @@
 package com.xavient.dataingest.storm;
 
+
 import com.xavient.dataingest.storm.bolt.filter.FilterInputBolt;
 import com.xavient.dataingest.storm.bolt.hbase.HBaseBoltFactory;
 import com.xavient.dataingest.storm.bolt.hdfs.HdfsBoltFactory;
@@ -23,6 +24,7 @@ public class DataIngestionTopology {
 
 	/**
 	 * Main method for Storm topology submit.
+	 * 
 	 * @param args
 	 * @throws DataIngestException
 	 */
@@ -33,26 +35,31 @@ public class DataIngestionTopology {
 		AppArgs appArgs = parser.validateArgs(args);
 
 		// LocalCluster local = new LocalCluster();
-		// local.submitTopology(TOPOLOGY_NAME, conf, topology.buildTopology(appArgs));
+		// local.submitTopology(TOPOLOGY_NAME, conf,
+		// topology.buildTopology(appArgs));
 		try {
-      StormSubmitter.submitTopology(TOPOLOGY_NAME, conf, topology.buildTopology(appArgs));
-    } catch (AlreadyAliveException | InvalidTopologyException | AuthorizationException e) {
-      throw new DataIngestException(e.getMessage());
-    }
+			StormSubmitter.submitTopology(TOPOLOGY_NAME, conf, topology.buildTopology(appArgs));
+		} catch (AlreadyAliveException | InvalidTopologyException | AuthorizationException e) {
+			throw new DataIngestException(e.getMessage());
+		}
 	}
 
 	/**
 	 * Builds Storm topology.
-	 * @param appArgs Application configurations
+	 * 
+	 * @param appArgs
+	 *            Application configurations
 	 * @return Returns Storm topology with Spouts and Bolts
 	 */
 	private StormTopology buildTopology(AppArgs appArgs) {
 		TopologyBuilder builder = new TopologyBuilder();
 		builder.setSpout(Constants.KAFKA_SPOUT_ID, KafkaSpoutFactory.getKafkaSpout(appArgs), 1);
 		builder.setBolt(Constants.FILTER_BOLT_ID, new FilterInputBolt()).shuffleGrouping(Constants.KAFKA_SPOUT_ID);
-		builder.setBolt(Constants.HDFS_BOLT_ID, HdfsBoltFactory.getHDFSBolt(appArgs)).shuffleGrouping(Constants.FILTER_BOLT_ID);
-		builder.setBolt(Constants.HBASE_BOLT_ID, HBaseBoltFactory.getHBaseBolt(appArgs)).shuffleGrouping(Constants.FILTER_BOLT_ID);
+		builder.setBolt(Constants.HDFS_BOLT_ID, HdfsBoltFactory.getHDFSBolt(appArgs))
+				.shuffleGrouping(Constants.FILTER_BOLT_ID);
+		builder.setBolt(Constants.HBASE_BOLT_ID, HBaseBoltFactory.getHBaseBolt(appArgs))
+				.shuffleGrouping(Constants.FILTER_BOLT_ID);
 		return builder.createTopology();
 	}
-	
+
 }

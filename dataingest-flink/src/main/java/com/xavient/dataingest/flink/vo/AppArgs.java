@@ -21,7 +21,7 @@ public class AppArgs implements Serializable {
 	public void setRewind(boolean rewind) {
 		this.rewind = rewind;
 	}
-
+	
 	public void setProperties(Properties properties) {
 		this.properties = properties;
 	}

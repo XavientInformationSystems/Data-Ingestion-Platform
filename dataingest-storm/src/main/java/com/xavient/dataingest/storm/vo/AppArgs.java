@@ -18,6 +18,10 @@ public class AppArgs implements Serializable {
 		this.rewind = rewind;
 	}
 
+	public Properties getProperties() {
+		return properties;
+	}
+
 	public void setProperties(Properties properties) {
 		this.properties = properties;
 	}
