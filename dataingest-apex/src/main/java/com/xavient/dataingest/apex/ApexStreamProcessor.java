@@ -10,8 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import com.datatorrent.api.DAG;
 import com.datatorrent.api.DAG.Locality;
-import com.datatorrent.api.StreamingApplication;
-import com.datatorrent.api.annotation.ApplicationAnnotation;
 import com.datatorrent.lib.io.ConsoleOutputOperator;
 import com.datatorrent.netlet.util.DTThrowable;
 import com.xavient.dataingest.apex.constants.Constants;
@@ -20,12 +18,12 @@ import com.xavient.dataingest.apex.operators.FileOutputOperator;
 import com.xavient.dataingest.apex.operators.HBasePutOperator;
 import com.xavient.dataingest.apex.util.HBaseUtil;
 
-@ApplicationAnnotation(name = "ApexStreamProcessing")
-public class ApexStreamProcessor implements StreamingApplication {
+//@ApplicationAnnotation(name = "ApexStreamProcessing")
+public class ApexStreamProcessor {//implements StreamingApplication {
   
   private static final transient Logger logger = LoggerFactory.getLogger(ApexStreamProcessor.class);
 
-  @Override
+  //@Override
   public void populateDAG(DAG dag, Configuration conf) {
     KafkaSinglePortInputOperator in = dag.addOperator("kafkaIn", new KafkaSinglePortInputOperator());
     ClassifierOperator classifierOut = dag.addOperator("classifierOut", ClassifierOperator.class);

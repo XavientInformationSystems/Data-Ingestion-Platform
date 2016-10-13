@@ -15,6 +15,7 @@ public class Constants {
 	public static final String FILE_SIZE_ROTATION = "rotation.policy.file.size";
 	public static final String HDFS_OUTPUT_PATH = "hdfs.output.path";
 	public static final String HDFS_OUTPUT_DELIMITER = "hdfs.output.delimiter";
+	public static final String HDFS_SYNC_POLICY="hdfs.sync.policy";
 	public static final String CLUSTER_FS_URL = "cluster.fs.url";
 	public static final String HBASE_COL_DELIMITER = "hbase.col.delimiter";
 	public static final String HBASE_COL_FAM_DELIMITER = "hbase.col.families.delimiter";

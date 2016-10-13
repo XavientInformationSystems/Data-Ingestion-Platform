@@ -12,6 +12,7 @@ import com.xavient.dataingest.storm.vo.AppArgs;
 
 import backtype.storm.tuple.Fields;
 
+
 public class HBaseBoltFactory {
 
 	public static HBaseBolt getHBaseBolt(String tablename, String rowKey, List<String> fields,

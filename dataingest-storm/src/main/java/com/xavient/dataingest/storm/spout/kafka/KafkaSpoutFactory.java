@@ -5,11 +5,13 @@ import com.xavient.dataingest.storm.vo.AppArgs;
 
 import storm.kafka.KafkaSpout;
 
+
+
 public class KafkaSpoutFactory {
 
 	public static KafkaSpout getKafkaSpout(AppArgs appArgs) {
-    return KafkaInputSpout.getKafkaSpout(appArgs.getProperty(Constants.KAFKA_TOPIC),
-        appArgs.getProperty(Constants.ZK_HOST), appArgs.getProperty(Constants.ZK_PORT, "2181"),
-        appArgs.isRewind());
-  }
+		return KafkaInputSpout.getKafkaSpout(appArgs.getProperty(Constants.KAFKA_TOPIC),
+				appArgs.getProperty(Constants.ZK_HOST), appArgs.getProperty(Constants.ZK_PORT, "2181"),
+				appArgs.isRewind());
+	}
 }

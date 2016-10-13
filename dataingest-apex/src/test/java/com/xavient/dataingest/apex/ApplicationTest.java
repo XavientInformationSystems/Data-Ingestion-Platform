@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.datatorrent.api.LocalMode;
+import com.xavient.dip.apex.ApexTwitterStreamProcessor;
 
 public class ApplicationTest {
 
@@ -18,7 +19,7 @@ public class ApplicationTest {
       LocalMode lma = LocalMode.newInstance();
       Configuration conf = new Configuration(false);
       conf.addResource(this.getClass().getResourceAsStream("/META-INF/properties.xml"));
-      lma.prepareDAG(new ApexStreamProcessor(), conf);
+      lma.prepareDAG(new ApexTwitterStreamProcessor(), conf);
       //LocalMode.runApp(new ApexStreamProcessor(), 1000000);
       LocalMode.Controller lc = lma.getController();
       //lc.runAsync();
