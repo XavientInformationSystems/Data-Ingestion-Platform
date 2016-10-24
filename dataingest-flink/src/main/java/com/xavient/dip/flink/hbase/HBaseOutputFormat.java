@@ -9,15 +9,13 @@ import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
 
-import com.xavient.dataingest.flink.constants.Constants;
-import com.xavient.dataingest.flink.util.CmdLineParser;
-import com.xavient.dataingest.flink.vo.AppArgs;
+import com.xavient.dip.common.AppArgs;
+import com.xavient.dip.common.config.DiPConfiguration;
 
 public class HBaseOutputFormat implements OutputFormat<Object[]> {
 
 	private org.apache.hadoop.conf.Configuration config = null;
 	private HTable table = null;
-	CmdLineParser parser = null;
 	AppArgs appArgs = null;
 	HBaseConfiguration conf = null;
 	private String columnFamily;
@@ -25,26 +23,29 @@ public class HBaseOutputFormat implements OutputFormat<Object[]> {
 
 	private static final long serialVersionUID = 1L;
 
+	public HBaseOutputFormat(AppArgs appArgs) {
+		this.appArgs = appArgs;
+	}
+
 	@Override
 	public void configure(Configuration parameters) {
 		try {
-			parser = new CmdLineParser();
-			this.appArgs = parser.validateArgs(null);
-			this.columnFamily = appArgs.getProperty(Constants.HBASE_COL_FAMILIES);
-			this.columnFields = appArgs.getProperty(Constants.HBASE_COL_NAMES).split("\\|");
+			this.columnFamily = appArgs.getProperty(DiPConfiguration.HBASE_COL_FAMILY);
+			this.columnFields = appArgs.getProperty(DiPConfiguration.HBASE_COL_NAMES).split(DiPConfiguration.HBASE_COL_DELIMITER);
 			config = HBaseConfiguration.create();
 			config.set("hbase.zookeeper.quorum",
-					appArgs.getProperty(Constants.ZK_HOST) + ":" + appArgs.getProperty(Constants.ZK_PORT));
-			config.set("hbase.master", appArgs.getProperty(Constants.HBASE_MASTER));
+					appArgs.getProperty(DiPConfiguration.ZK_HOST) + ":" + appArgs.getProperty(DiPConfiguration.ZK_PORT));
+			config.set("hbase.master", appArgs.getProperty(DiPConfiguration.HBASE_MASTER));
 			config.set("zookeeper.znode.parent", "/hbase-unsecure");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void open(int taskNumber, int numTasks) throws IOException {
-		table = new HTable(config, appArgs.getProperty(Constants.FLINK_HBASE_TABLENAME));
+		table = new HTable(config, appArgs.getProperty(DiPConfiguration.HBASE_TABLE_NAME));
 	}
 
 	@Override
@@ -53,6 +54,7 @@ public class HBaseOutputFormat implements OutputFormat<Object[]> {
 		table.close();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void writeRecord(Object[] record) throws IOException {
 		Object[] data = (Object[]) record;
