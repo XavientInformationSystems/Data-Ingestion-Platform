@@ -11,8 +11,8 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.streaming.api.java.JavaDStream;
 
-import com.xavient.dip.spark.constants.Constants;
-import com.xavient.dip.spark.util.AppArgs;
+import com.xavient.dip.common.AppArgs;
+import com.xavient.dip.common.config.DiPConfiguration;
 
 public class SparkHBaseWriter implements Serializable {
 
@@ -24,9 +24,9 @@ public class SparkHBaseWriter implements Serializable {
 
 	public SparkHBaseWriter(JavaSparkContext jsc, AppArgs appArgs) {
 		super();
-		this.tableName = appArgs.getProperty(Constants.HBASE_TABLENAME);
-		this.columnFamily = appArgs.getProperty(Constants.HBASE_COL_FAMILIES);
-		this.columnFields = appArgs.getProperty(Constants.HBASE_COL_NAMES).split("\\|");
+		this.tableName = appArgs.getProperty(DiPConfiguration.HBASE_TABLE_NAME);
+		this.columnFamily = appArgs.getProperty(DiPConfiguration.HBASE_COL_FAMILY);
+		this.columnFields = appArgs.getProperty(DiPConfiguration.HBASE_COL_NAMES).split("\\|");
 		this.hbaseContext = new JavaHBaseContext(jsc, getConf(appArgs));
 	}
 
@@ -35,7 +35,7 @@ public class SparkHBaseWriter implements Serializable {
 			Object[] data = (Object[]) record;
 			Put put = new Put(Bytes.toBytes(String.valueOf(data[1])));
 			for (int i = 2; i < data.length; i++) {
-				put.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes(columnFields[i-2]),
+				put.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes(columnFields[i - 2]),
 						Bytes.toBytes(String.valueOf(data[i])));
 			}
 			return put;
@@ -44,10 +44,10 @@ public class SparkHBaseWriter implements Serializable {
 
 	private static Configuration getConf(AppArgs appArgs) {
 		Configuration conf = HBaseConfiguration.create();
-		conf.set("hbase.master",
-				appArgs.getProperty(Constants.ZK_HOST) + ":" + appArgs.getProperty(Constants.HBASE_MASTER));
+		conf.set("hbase.master", appArgs.getProperty(DiPConfiguration.HBASE_MASTER));
 		conf.set("timeout", "120000");
-		conf.set("hbase.zookeeper.quorum", appArgs.getProperty(Constants.ZK_QUORUM));
+		conf.set("hbase.zookeeper.quorum",
+				appArgs.getProperty(DiPConfiguration.ZK_HOST) + ":" + appArgs.getProperty(DiPConfiguration.ZK_PORT));
 		conf.set("zookeeper.znode.parent", "/hbase-unsecure");
 		return conf;
 	}
