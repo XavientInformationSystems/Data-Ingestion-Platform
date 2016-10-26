@@ -3,8 +3,8 @@ package com.xavient.dip.spark.writer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.spark.streaming.api.java.JavaDStream;
 
-import com.xavient.dip.spark.constants.Constants;
-import com.xavient.dip.spark.util.AppArgs;
+import com.xavient.dip.common.AppArgs;
+import com.xavient.dip.common.config.DiPConfiguration;
 
 public class SparkHdfsWriter {
 
@@ -14,11 +14,12 @@ public class SparkHdfsWriter {
 				StringBuilder recordBuilder = new StringBuilder();
 				for (Object e : (Object[]) record) {
 					recordBuilder.append(e);
-					recordBuilder.append(appArgs.getProperty("hdfs.output.delimiter"));
+					recordBuilder.append(appArgs.getProperty(DiPConfiguration.HDFS_OUTPUT_DELIMITER));
 				}
-				return StringUtils.removeEnd(recordBuilder.toString(), appArgs.getProperty("hdfs.output.delimiter"));
-			}).saveAsTextFile(appArgs.getProperty(Constants.CLUSTER_FS_URL)
-					+ appArgs.getProperty(Constants.HDFS_OUTPUT_PATH) + System.currentTimeMillis());
+				return StringUtils.removeEnd(recordBuilder.toString(),
+						appArgs.getProperty(DiPConfiguration.HDFS_OUTPUT_DELIMITER));
+			}).saveAsTextFile(appArgs.getProperty(DiPConfiguration.CLUSTER_FS_URL)
+					+ appArgs.getProperty(DiPConfiguration.HDFS_OUTPUT_PATH) + System.currentTimeMillis());
 		});
 	}
 }

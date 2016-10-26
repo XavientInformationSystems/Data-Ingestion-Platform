@@ -2,17 +2,25 @@ package com.xavient.dip.apex.operator;
 
 import java.io.IOException;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import com.datatorrent.contrib.hbase.AbstractHBaseWindowPutOutputOperator;
+import com.xavient.dip.common.config.DiPConfiguration;
 
 public class HBaseSinkOperator extends AbstractHBaseWindowPutOutputOperator<Object[]> {
 
-	private static final String columnFamily = "tweets";
-	private static final String[] columnFields = { "text", "source", "reTweeted", "username", "createdAt",
-			"retweetCount", "userLocation", "inReplyToUserId", "inReplyToStatusId", "userScreenName", "userDescription",
-			"userFriendsCount", "userStatusesCount", "userFollowersCount" };
+	@SuppressWarnings("unused")
+	private String rowKey;
+	private String columnFamily;
+	private String[] columnFields;
+
+	public HBaseSinkOperator(Configuration config) {
+		this.rowKey = config.get(DiPConfiguration.HBASE_ROW_KEY);
+		this.columnFamily = config.get(DiPConfiguration.HBASE_COL_FAMILY);
+		this.columnFields = config.get(DiPConfiguration.HBASE_COL_NAMES).split(DiPConfiguration.HBASE_COL_DELIMITER);
+	}
 
 	@Override
 	public Put operationPut(Object[] tuple) throws IOException {

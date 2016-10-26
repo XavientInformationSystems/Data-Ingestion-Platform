@@ -15,9 +15,10 @@ import org.apache.flink.streaming.connectors.fs.RollingSink;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer08;
 import org.apache.flink.streaming.util.serialization.SimpleStringSchema;
 
-import com.xavient.dataingest.flink.constants.Constants;
-import com.xavient.dataingest.flink.util.CmdLineParser;
-import com.xavient.dataingest.flink.vo.AppArgs;
+
+import com.xavient.dip.common.AppArgs;
+import com.xavient.dip.common.config.DiPConfiguration;
+import com.xavient.dip.common.utils.CmdLineParser;
 import com.xavient.dip.common.utils.FlatJsonConverter;
 import com.xavient.dip.flink.hbase.HBaseOutputFormat;
 
@@ -33,15 +34,14 @@ public class FlinkTweeterStreamProcessor {
 		StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 		env.enableCheckpointing(5000);
 		Properties properties = new Properties();
-		properties.setProperty("bootstrap.servers",
-				appArgs.getProperty(Constants.KAFKA_HOST) + ":" + appArgs.getProperty(Constants.KAFKA_PORT));
+		properties.setProperty(DiPConfiguration.KAFKA_BOOTSTRAP_SERVERS,
+				appArgs.getProperty(DiPConfiguration.KAFKA_BOOTSTRAP_SERVERS));
 		properties.setProperty("zookeeper.connect",
-				appArgs.getProperty(Constants.ZK_HOST) + ":" + appArgs.getProperty(Constants.ZK_PORT));
-		properties.setProperty("group.id", "test");
-
+				appArgs.getProperty(DiPConfiguration.ZK_HOST) + ":" + appArgs.getProperty(DiPConfiguration.ZK_PORT));
+		properties.setProperty("group.id", DiPConfiguration.KAFKA_GROUP_ID);
 		// Creates a source from which flink program picks up the data
 		DataStream<String> kafkaSourceStream = env
-				.addSource(new FlinkKafkaConsumer08<String>(appArgs.getProperty(Constants.FLINK_KAFKA_TOPIC),
+				.addSource(new FlinkKafkaConsumer08<String>(appArgs.getProperty(DiPConfiguration.KAFKA_TOPIC),
 						new SimpleStringSchema(), properties))
 				.name("KafkaSource");
 		DataStream<Object[]> tweeterStream = kafkaSourceStream
@@ -50,21 +50,21 @@ public class FlinkTweeterStreamProcessor {
 			StringBuilder recordBuilder = new StringBuilder();
 			for (Object e : Arrays.copyOfRange(record, 1, record.length)) {
 				recordBuilder.append(e);
-				recordBuilder.append(appArgs.getProperty(Constants.HDFS_OUTPUT_DELIMITER));
+				recordBuilder.append(appArgs.getProperty(DiPConfiguration.HDFS_OUTPUT_DELIMITER));
 			}
 			return StringUtils.removeEnd(recordBuilder.toString(),
-					appArgs.getProperty(Constants.HDFS_OUTPUT_DELIMITER));
+					appArgs.getProperty(DiPConfiguration.HDFS_OUTPUT_DELIMITER));
 		});
-		System.setProperty("HADOOP_USER_NAME", appArgs.getProperty(Constants.HADOOP_USER_NAME));
+		System.setProperty("HADOOP_USER_NAME", appArgs.getProperty(DiPConfiguration.HADOOP_USER_NAME));
 		// HDFS Sink to write the data to the HDFS
-		RollingSink<String> hdfsSink = new RollingSink<>(appArgs.getProperty(Constants.FLINK_OUTPUT_PATH));
+		RollingSink<String> hdfsSink = new RollingSink<>(appArgs.getProperty(DiPConfiguration.HDFS_OUTPUT_PATH));
 		hdfsSink.setBucketer(new DateTimeBucketer("yyyy-MM-dd--HH-mm-ss"));
 		hdfsSink.setBatchSize(1024 * 1024 * 400);
 		hdfsSink.setInProgressPrefix("flink");
 		hdfsSink.setInProgressSuffix(".text");
 		hdfsStream.addSink(hdfsSink).name("HDFS Sink");
 		// FLink writes to the HBASE using the HBASE output format
-		tweeterStream.writeUsingOutputFormat(new HBaseOutputFormat()).name("HBASE Sink");
+		tweeterStream.writeUsingOutputFormat(new HBaseOutputFormat(appArgs)).name("HBASE Sink");
 		env.execute();
 	}
 }

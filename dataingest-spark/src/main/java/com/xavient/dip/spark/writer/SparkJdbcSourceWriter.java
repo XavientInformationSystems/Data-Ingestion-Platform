@@ -9,7 +9,8 @@ import org.apache.spark.sql.SQLContext;
 import org.apache.spark.sql.SaveMode;
 import org.apache.spark.sql.types.StructType;
 
-import com.xavient.dip.spark.util.AppArgs;
+import com.xavient.dip.common.AppArgs;
+import com.xavient.dip.common.config.DiPConfiguration;
 
 public class SparkJdbcSourceWriter {
 
@@ -20,10 +21,10 @@ public class SparkJdbcSourceWriter {
 		super();
 		this.sqlContext = sqlContext;
 		this.props = new Properties();
-		props.setProperty("url", appArgs.getProperty("jdbc.url"));
-		props.setProperty("user", appArgs.getProperty("jdbc.user"));
-		props.setProperty("password", appArgs.getProperty("jdbc.password"));
-		props.setProperty("driver", appArgs.getProperty("jdbc.driver.class"));
+		props.setProperty("url", appArgs.getProperty(DiPConfiguration.JDBC_URL));
+		props.setProperty("user", appArgs.getProperty(DiPConfiguration.JDBC_USER));
+		props.setProperty("password", appArgs.getProperty(DiPConfiguration.JDBC_PASSWORD));
+		props.setProperty("driver", appArgs.getProperty(DiPConfiguration.JDBC_DRIVER_CLASS));
 	}
 
 	public void write(List<Row> rows, StructType schema, String tableName) {
