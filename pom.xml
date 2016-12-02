@@ -12,6 +12,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<jackson.version>2.7.4</jackson.version>
 		<storm.version>0.10.0</storm.version>
+		<sonar.language>java</sonar.language>
+		<sonar.sources>.</sonar.sources>
+		<sonar.inclusions>src/main/**</sonar.inclusions>
 	</properties>
 
 	<modules>
@@ -24,6 +27,11 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.2</version>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
