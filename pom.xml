@@ -23,6 +23,8 @@
 		<module>dataingest-storm</module>
 		<module>dataingest-flink</module>
 		<module>dataingest-apex</module>
+		<module>dataingest-storm-druid</module>
+		<module>flume-twitter-sources</module>
 	</modules>
 
 	<build>
