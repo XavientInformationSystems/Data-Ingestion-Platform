@@ -26,6 +26,7 @@ public class HdfsSinkOperator extends AbstractFileOutputOperator<Object[]> {
 		StringBuilder recordBuilder = new StringBuilder();
 		for (Object e : (Object[]) tuple) {
 			recordBuilder.append(e);
+			
 			recordBuilder.append("\\|");
 		}
 		return StringUtils.removeEnd(recordBuilder.toString(), "\\|").getBytes();

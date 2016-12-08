@@ -13,6 +13,7 @@ public class ApexStreamingException extends Exception {
   }
 
   public ApexStreamingException(String message, Throwable throwable) {
+	  
     super(message, throwable);
   }
 
