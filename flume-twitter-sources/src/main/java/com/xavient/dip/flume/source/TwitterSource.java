@@ -93,46 +93,25 @@ public class TwitterSource extends AbstractSource implements EventDrivenSource, 
 		 * in through the stream.
 		 */
 		StatusListener listener = new StatusListener() {
-			// The onStatus method is executed every time a new tweet comes in.
 			@Override
-			public void onStatus(Status status) {
-				/*
-				 * The EventBuilder is used to build an event using the headers
-				 * and the raw JSON of a tweet shouldn't log possibly sensitive
-				 * customer data
-				 */
-				logger.debug("tweet arrived");
+			public void onStatus(Status status) {				
 				headers.put("timestamp", String.valueOf(status.getCreatedAt().getTime()));
 				Event event = EventBuilder.withBody(DataObjectFactory.getRawJSON(status).getBytes(), headers);
-				channel.processEvent(event);
-			}
-
-			// This listener will ignore everything except for new tweets
+				channel.processEvent(event);}	
 			@Override
-			public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-				// To do
-			}
-
+			public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {/* To do*/			}	
 			@Override
-			public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
-				// To do
-			}
-
+			public void onTrackLimitationNotice(int numberOfLimitedStatuses) {// To do
+					}
 			@Override
-			public void onScrubGeo(long userId, long upToStatusId) {
-				// To do
-			}
-
+			public void onScrubGeo(long userId, long upToStatusId) { // To do
+				}				
 			@Override
-			public void onException(Exception ex) {
-				// To do
+			public void onException(Exception ex) {	// To do			
 			}
-
 			@Override
-			public void onStallWarning(StallWarning warning) {
-				// To do
-			}
-		};
+			public void onStallWarning(StallWarning arg0) {// To Do								
+			}};
 
 		logger.debug("Setting up Twitter sample stream using consumer key {} and" + " access token {}",
 				new String[] { consumerKey, accessToken });
