@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class DataPayload implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	public List<String> payload = new ArrayList<String>();
+	private List<String> payload = new ArrayList<String>();
 
 	/*
 	 * This function is overwridden as this is used to write the data

@@ -27,6 +27,11 @@ import com.xavient.dip.flink.hbase.HBaseOutputFormat;
  *
  */
 public class FlinkTweeterStreamProcessor {
+	
+	private FlinkTweeterStreamProcessor()
+	{
+		
+	}
 	public static void main(String[] args) throws Exception {
 
 		CmdLineParser parser = new CmdLineParser();

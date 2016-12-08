@@ -8,16 +8,20 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.xavient.dip.common.AppArgs;
 import com.xavient.dip.common.config.DiPConfiguration;
+import com.xavient.dip.common.utils.CmdLineParser;
 
 public class HBaseOutputFormat implements OutputFormat<Object[]> {
 
-	private org.apache.hadoop.conf.Configuration config = null;
-	private HTable table = null;
+	static final  Logger logger = LoggerFactory.getLogger(HBaseOutputFormat.class);
+	private transient org.apache.hadoop.conf.Configuration config = null;
+	private transient HTable table = null;
 	AppArgs appArgs = null;
-	HBaseConfiguration conf = null;
+	transient HBaseConfiguration conf = null;
 	private String columnFamily;
 	private String[] columnFields;
 
@@ -38,7 +42,8 @@ public class HBaseOutputFormat implements OutputFormat<Object[]> {
 			config.set("hbase.master", appArgs.getProperty(DiPConfiguration.HBASE_MASTER));
 			config.set("zookeeper.znode.parent", "/hbase-unsecure");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("exception raised",e);
+			
 		}
 	}
 
@@ -57,7 +62,7 @@ public class HBaseOutputFormat implements OutputFormat<Object[]> {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void writeRecord(Object[] record) throws IOException {
-		Object[] data = (Object[]) record;
+		Object[] data =  record;
 		Put put = new Put(Bytes.toBytes(String.valueOf(data[1])));
 		for (int i = 2; i < data.length; i++) {
 			put.add(Bytes.toBytes(columnFamily), Bytes.toBytes(columnFields[i - 2]),

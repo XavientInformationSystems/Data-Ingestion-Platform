@@ -34,11 +34,15 @@ public class DiPConfiguration {
 	//JDBC 
 	public static final String JDBC_URL="jdbc.url";
 	public static final String JDBC_USER="jdbc.user";
-	public static final String JDBC_PASSWORD="jdbc.password";
+	public static final String JDBC_P="jdbc.p";
 	public static final String JDBC_DRIVER_CLASS="jdbc.driver.class";
 	
 	public static final String FILE_DELIMITER = "|";
-	public static final String[] METADATA_JSON_ATTRIBUTES = { "id", "author", "title", "genre", "price", "publish_date",
+	protected static final String[] METADATA_JSON_ATTRIBUTES = { "id", "author", "title", "genre", "price", "publish_date",
 			"description" };
+	
+	private DiPConfiguration(){
+		
+	}
 
 }

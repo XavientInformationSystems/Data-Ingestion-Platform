@@ -30,7 +30,7 @@ import com.xavient.dip.common.exceptions.DataIngestException;
 public class CmdLineParser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	final static Logger logger = LoggerFactory.getLogger(CmdLineParser.class);
+	static final  Logger logger = LoggerFactory.getLogger(CmdLineParser.class);
 
 	private CommandLine getCommandLine(String[] args) throws DataIngestException {
 		CommandLineParser parser = new BasicParser();
@@ -70,6 +70,7 @@ public class CmdLineParser implements Serializable {
 				properties.load(new FileInputStream(new File(cmdLine.getOptionValue(DiPConfiguration.CONFIG_FILE))));
 				appArgs.setProperties(properties);
 			} catch (IOException e) {
+				logger.error("Exception raised",e);
 				throw new DataIngestException("Error while loading configuration file: " + e.getMessage());
 			}
 		}
@@ -84,13 +85,22 @@ public class CmdLineParser implements Serializable {
 			properties.load(is);
 			return properties;
 		} catch (FileNotFoundException e) {
+			logger.error("Exception raised", e);
 			throw new DataIngestException("File not found: " + e.getLocalizedMessage());
 		} catch (IOException e) {
+			logger.error("Exception raise", e);
 			throw new DataIngestException("Error while reading file: " + e.getLocalizedMessage());
 		} finally {
 			try {
 				is.close();
 			} catch (IOException e) {
+				logger.error("Exception", e);
+			}
+			catch (NullPointerException e) {
+				logger.error("Exception ", e);
+			
+				
+				
 			}
 		}
 	}
