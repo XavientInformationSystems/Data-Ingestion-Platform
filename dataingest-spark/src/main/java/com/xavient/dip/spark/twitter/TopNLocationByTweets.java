@@ -23,6 +23,7 @@ public class TopNLocationByTweets extends TopN<String, Integer> {
 	protected <T> JavaPairRDD<String, Integer> doMapToPair(JavaRDD<T> rdd) {
 		return rdd.mapToPair(tweet -> {
 			Object[] data = (Object[]) tweet;
+			
 			return new Tuple2<String, Integer>((String) data[8], 1);
 		}).reduceByKey((val1, val2) -> val1 + val2);
 	}

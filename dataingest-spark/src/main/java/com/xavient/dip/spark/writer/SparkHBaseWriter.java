@@ -46,6 +46,7 @@ public class SparkHBaseWriter implements Serializable {
 		Configuration conf = HBaseConfiguration.create();
 		conf.set("hbase.master", appArgs.getProperty(DiPConfiguration.HBASE_MASTER));
 		conf.set("timeout", "120000");
+		
 		conf.set("hbase.zookeeper.quorum",
 				appArgs.getProperty(DiPConfiguration.ZK_HOST) + ":" + appArgs.getProperty(DiPConfiguration.ZK_PORT));
 		conf.set("zookeeper.znode.parent", "/hbase-unsecure");

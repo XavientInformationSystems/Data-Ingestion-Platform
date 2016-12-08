@@ -24,6 +24,7 @@ public class SparkJdbcSourceWriter {
 		props.setProperty("url", appArgs.getProperty(DiPConfiguration.JDBC_URL));
 		props.setProperty("user", appArgs.getProperty(DiPConfiguration.JDBC_USER));
 		props.setProperty("password", appArgs.getProperty(DiPConfiguration.JDBC_P));
+		
 		props.setProperty("driver", appArgs.getProperty(DiPConfiguration.JDBC_DRIVER_CLASS));
 	}
 

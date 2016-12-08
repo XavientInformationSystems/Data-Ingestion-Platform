@@ -12,6 +12,7 @@ public class SparkHdfsWriter {
 		javaDStream.foreachRDD(rdd -> {
 			rdd.map(record -> {
 				StringBuilder recordBuilder = new StringBuilder();
+				
 				for (Object e : (Object[]) record) {
 					recordBuilder.append(e);
 					recordBuilder.append(appArgs.getProperty(DiPConfiguration.HDFS_OUTPUT_DELIMITER));
