@@ -22,6 +22,7 @@ public class DataObjectFactory {
 
 	public static String getRawJSON(Status status) {
 		Map<String, Object> data = new LinkedHashMap<String, Object>(15);
+		
 		data.put("timestamp", fmt.print(status.getCreatedAt().getTime()));
 		data.put("id", status.getId());
 		data.put("text", status.getText());
