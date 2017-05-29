@@ -2,7 +2,7 @@ package com.xavient.dip.common.config;
 
 public class DiPConfiguration {
 	public static final String CONFIG_FILE = "config";
-	public static final String DEFAULT_CONFIG_FILE = "/dip-default-config.properties";
+	public static final String DEFAULT_CONFIG_FILE = "/config.properties";
 	
 	public static final String REWIND = "rewind";
 	public static final String KAFKA_TOPIC = "kafka.topic";
@@ -23,7 +23,7 @@ public class DiPConfiguration {
 	
 	public static final String DELIMITER_PREFIX = "\\";
 	
-	public static final String HADOOP_USER_NAME = "hadoop.user.name";
+	public static final String HADOOP_USER_NAME = "hdfs.user.name";
 	public static final String HDFS_FILE_NAME = "hdfs.file.name";
 	public static final String FILE_SIZE_ROTATION = "rotation.policy.file.size";
 	public static final String HDFS_OUTPUT_PATH = "hdfs.output.path";

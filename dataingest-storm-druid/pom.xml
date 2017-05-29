@@ -21,7 +21,7 @@
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<testSourceDirectory>src/test/java</testSourceDirectory>
-			<plugins>
+		<plugins>
 			<plugin>
 				<!-- see http://davidb.github.com/scala-maven-plugin -->
 				<groupId>net.alchim31.maven</groupId>
@@ -143,5 +143,5 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-</dependencies>
+	</dependencies>
 </project>

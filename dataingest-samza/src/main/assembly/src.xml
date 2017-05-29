@@ -83,7 +83,7 @@
 				<include>org.apache.hbase:hbase-client</include>
 				<include>org.scala-lang:scala-library</include>
 				<include>com.xavient.dataingest:dip.samza</include>
-				
+
 
 			</includes>
 			<useTransitiveFiltering>true</useTransitiveFiltering>

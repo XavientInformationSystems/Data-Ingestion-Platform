@@ -38,6 +38,7 @@ public class TwitterDataIngestion {
 					appArgs.getProperty(DiPConfiguration.ZK_HOST)+":"+appArgs.getProperty(DiPConfiguration.ZK_PORT), "spark-stream", getKafkaTopics(appArgs));
 			JavaDStream<Object[]> twitterStreams = stream.map(tuple -> FlatJsonConverter.convertToValuesArray(tuple._2))
 					.cache();
+			
 			SparkHdfsWriter.write(twitterStreams, appArgs);
 			new SparkHBaseWriter(jsc.sparkContext(), appArgs).write(twitterStreams);
 			SparkJdbcSourceWriter jdbcSourceWriter = new SparkJdbcSourceWriter(new SQLContext(jsc.sparkContext()),

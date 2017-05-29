@@ -19,6 +19,10 @@ import com.xavient.dip.storm.spout.kafka.KafkaSpoutFactory;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
+import backtype.storm.StormSubmitter;
+import backtype.storm.generated.AlreadyAliveException;
+import backtype.storm.generated.AuthorizationException;
+import backtype.storm.generated.InvalidTopologyException;
 import backtype.storm.generated.StormTopology;
 import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.tuple.Fields;
@@ -48,13 +52,13 @@ public class DataIngestionWindowBasedTopology {
 			dbProperties.put(name, appArgs.getProperties().getProperty(name));
 		stormConf.put("dbProperties", dbProperties);
 
-		new LocalCluster().submitTopology("DataIngestion", stormConf, buildTopology(appArgs));
+	//	new LocalCluster().submitTopology("DataIngestion", stormConf, buildTopology(appArgs));
 
-		/*try {
+		try {
 			StormSubmitter.submitTopology("DataIngestion", stormConf, buildTopology(appArgs));
 		} catch (AlreadyAliveException | InvalidTopologyException | AuthorizationException e) {
 			throw new DataIngestException(e.getMessage());
-		}*/
+		}
 	}
 
 	private static StormTopology buildTopology(AppArgs appArgs) {

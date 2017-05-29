@@ -16,6 +16,12 @@
 			<groupId>com.xavient.dataingest.common</groupId>
 			<artifactId>dip.common</artifactId>
 			<version>1.0.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.hadoop</groupId>
+					<artifactId>hadoop-client</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.spark</groupId>
@@ -31,6 +37,10 @@
 				<exclusion>
 					<groupId>com.google.guava</groupId>
 					<artifactId>guava</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.hadoop</groupId>
+					<artifactId>hadoop-client</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -67,6 +77,14 @@
 					<artifactId>hbase-protocol</artifactId>
 					<groupId>org.apache.hbase</groupId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.apache.hadoop</groupId>
+					<artifactId>hadoop-client</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.hadoop</groupId>
+					<artifactId>hadoop-common</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -88,6 +106,10 @@
 				<exclusion>
 					<artifactId>hbase-protocol</artifactId>
 					<groupId>org.apache.hbase</groupId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.hadoop</groupId>
+					<artifactId>hadoop-common</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>

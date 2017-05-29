@@ -10,7 +10,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<jackson.version>2.7.4</jackson.version>
+		<jackson.version>2.4.4</jackson.version>
 		<storm.version>0.10.0</storm.version>
 		<sonar.language>java</sonar.language>
 		<sonar.sources>.</sonar.sources>
@@ -23,8 +23,6 @@
 		<module>dataingest-storm</module>
 		<module>dataingest-flink</module>
 		<module>dataingest-apex</module>
-		<module>dataingest-storm-druid</module>
-		<module>flume-twitter-sources</module>
 	</modules>
 
 	<build>
@@ -133,22 +131,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-client</artifactId>
-			<version>2.7.1</version>
-			<scope>provided</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>guava</artifactId>
-					<groupId>com.google.guava</groupId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
@@ -160,11 +142,11 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 			<version>${jackson.version}</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
@@ -183,7 +165,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-hdfs</artifactId>
+			<artifactId>hadoop-client</artifactId>
 			<version>2.7.1</version>
 			<scope>provided</scope>
 			<exclusions>
