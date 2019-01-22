@@ -37,6 +37,7 @@ public class ApexTwitterStreamProcessor implements StreamingApplication {
 		dag.addStream("kafkaStream", in.outputPort, tweeterStream.inputPort).setLocality(Locality.CONTAINER_LOCAL);
 		dag.addStream("hdfsStream", tweeterStream.hdfsOutputPort, hdfsSinkOperator.input);
 		dag.addStream("hbaseStream", tweeterStream.hBaseOutputPort, hBaseSinkOperator.input);
+		
 
 	}
 

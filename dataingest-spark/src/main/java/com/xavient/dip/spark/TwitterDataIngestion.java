@@ -30,6 +30,7 @@ public class TwitterDataIngestion {
 	public static void main(String[] args) throws DataIngestException {
 		CmdLineParser cmdLineParser = new CmdLineParser();
 		final AppArgs appArgs = cmdLineParser.validateArgs(args);
+		
 		System.setProperty("HADOOP_USER_NAME", appArgs.getProperty(DiPConfiguration.HADOOP_USER_NAME));
 		SparkConf conf = new SparkConf().setAppName("SparkTwitterStreaming")
 				.setMaster("local[*]");

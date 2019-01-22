@@ -27,6 +27,11 @@ import com.xavient.dip.flink.hbase.HBaseOutputFormat;
  *
  */
 public class FlinkTweeterStreamProcessor {
+	
+	private FlinkTweeterStreamProcessor()
+	{
+		
+	}
 	public static void main(String[] args) throws Exception {
 
 		CmdLineParser parser = new CmdLineParser();
@@ -59,7 +64,7 @@ public class FlinkTweeterStreamProcessor {
 		// HDFS Sink to write the data to the HDFS
 		RollingSink<String> hdfsSink = new RollingSink<>(appArgs.getProperty(DiPConfiguration.HDFS_OUTPUT_PATH));
 		hdfsSink.setBucketer(new DateTimeBucketer("yyyy-MM-dd--HH-mm-ss"));
-		hdfsSink.setBatchSize(1024 * 1024 * 400);
+		hdfsSink.setBatchSize(1024 * 1024 * (long)400);
 		hdfsSink.setInProgressPrefix("flink");
 		hdfsSink.setInProgressSuffix(".text");
 		hdfsStream.addSink(hdfsSink).name("HDFS Sink");

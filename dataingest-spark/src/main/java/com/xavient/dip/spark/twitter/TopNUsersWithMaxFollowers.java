@@ -23,6 +23,7 @@ public class TopNUsersWithMaxFollowers extends TopN<String, Integer> {
 	protected <T> JavaPairRDD<String, Integer> doMapToPair(JavaRDD<T> rdd) {
 		return rdd.mapToPair(tweet -> {
 			Object[] data = (Object[]) tweet;
+			
 			return new Tuple2<String, Integer>((String) data[5], (Integer) data[15]);
 		});
 	}

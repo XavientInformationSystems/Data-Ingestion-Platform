@@ -27,6 +27,7 @@ public class HBaseSinkOperator extends AbstractHBaseWindowPutOutputOperator<Obje
 		Put put = new Put(Bytes.toBytes(String.valueOf(tuple[1])));
 		for (int i = 2; i < tuple.length; i++) {
 			put.addColumn(Bytes.toBytes(columnFamily), Bytes.toBytes(columnFields[i - 2]),
+					
 					Bytes.toBytes(String.valueOf(tuple[i])));
 		}
 		return put;

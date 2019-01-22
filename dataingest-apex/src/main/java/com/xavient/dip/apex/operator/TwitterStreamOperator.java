@@ -23,6 +23,7 @@ public class TwitterStreamOperator extends BaseOperator {
 		public void process(Object record) {
 			Object[] data = FlatJsonConverter.convertToValuesArray(new String((byte[]) record));
 			hdfsOutputPort.emit(data);
+			
 			hBaseOutputPort.emit(data);
 		}
 	};

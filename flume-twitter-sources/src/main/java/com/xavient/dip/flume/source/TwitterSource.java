@@ -22,7 +22,6 @@ import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
-
 /**
  * A Flume Source, which pulls data from Twitter's streaming API. Currently,
  * this only supports pulling from the sample API, and only gets new status
@@ -34,9 +33,8 @@ public class TwitterSource extends AbstractSource implements EventDrivenSource, 
 
 	/** Information necessary for accessing the Twitter API */
 	private String consumerKey;
-	private String consumerSecret;
+
 	private String accessToken;
-	private String accessTokenSecret;
 
 	private String[] keywords;
 
@@ -50,6 +48,8 @@ public class TwitterSource extends AbstractSource implements EventDrivenSource, 
 	 */
 	@Override
 	public void configure(Context context) {
+		String consumerSecret;
+		String accessTokenSecret;
 		consumerKey = context.getString(TwitterSourceConstants.CONSUMER_KEY_KEY);
 		consumerSecret = context.getString(TwitterSourceConstants.CONSUMER_SECRET_KEY);
 		accessToken = context.getString(TwitterSourceConstants.ACCESS_TOKEN_KEY);
@@ -93,33 +93,25 @@ public class TwitterSource extends AbstractSource implements EventDrivenSource, 
 		 * in through the stream.
 		 */
 		StatusListener listener = new StatusListener() {
-			// The onStatus method is executed every time a new tweet comes in.
-			public void onStatus(Status status) {
-				 /*The EventBuilder is used to build an event using the headers
-				 and the raw JSON of a tweet
-				 shouldn't log possibly sensitive customer data*/	
-			logger.debug("tweet arrived");
+			@Override
+			public void onStatus(Status status) {				
 				headers.put("timestamp", String.valueOf(status.getCreatedAt().getTime()));
 				Event event = EventBuilder.withBody(DataObjectFactory.getRawJSON(status).getBytes(), headers);
-				channel.processEvent(event);
+				channel.processEvent(event);}	
+			@Override
+			public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {/* To do*/			}	
+			@Override
+			public void onTrackLimitationNotice(int numberOfLimitedStatuses) {// To do
+					}
+			@Override
+			public void onScrubGeo(long userId, long upToStatusId) { // To do
+				}				
+			@Override
+			public void onException(Exception ex) {	// To do			
 			}
-
-			// This listener will ignore everything except for new tweets
-			public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-			}
-
-			public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
-			}
-
-			public void onScrubGeo(long userId, long upToStatusId) {
-			}
-
-			public void onException(Exception ex) {
-			}
-
-			public void onStallWarning(StallWarning warning) {
-			}
-		};
+			@Override
+			public void onStallWarning(StallWarning arg0) {// To Do								
+			}};
 
 		logger.debug("Setting up Twitter sample stream using consumer key {} and" + " access token {}",
 				new String[] { consumerKey, accessToken });

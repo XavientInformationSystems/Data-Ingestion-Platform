@@ -35,6 +35,7 @@ public abstract class TopN<K, V extends Comparable<V>> {
 			doMapToPair(rdd).top(topN,
 					(Comparator<Tuple2<K, V>> & Serializable) (tuple1, tuple2) -> tuple1._2.compareTo(tuple2._2))
 					.forEach(tuple -> rows.add(createRow(tuple)));
+			
 			rdbmsWriter.write(rows, schema, tableName);
 		});
 

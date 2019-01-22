@@ -42,7 +42,8 @@ public class HBaseUtil {
       }
     } finally {
       if (admin != null) {
-        admin.close();
+        
+    	  admin.close();
       }
     }
   }

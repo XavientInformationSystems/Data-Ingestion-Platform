@@ -16,8 +16,13 @@ public class DataObjectFactory {
 	private static Gson gson = new Gson();
 	private static DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
+	private DataObjectFactory() {
+
+	}
+
 	public static String getRawJSON(Status status) {
 		Map<String, Object> data = new LinkedHashMap<String, Object>(15);
+		
 		data.put("timestamp", fmt.print(status.getCreatedAt().getTime()));
 		data.put("id", status.getId());
 		data.put("text", status.getText());

@@ -26,11 +26,10 @@ import com.xavient.dip.common.AppArgs;
 import com.xavient.dip.common.config.DiPConfiguration;
 import com.xavient.dip.common.exceptions.DataIngestException;
 
-
 public class CmdLineParser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	final static Logger logger = LoggerFactory.getLogger(CmdLineParser.class);
+	static final Logger logger = LoggerFactory.getLogger(CmdLineParser.class);
 
 	private CommandLine getCommandLine(String[] args) throws DataIngestException {
 		CommandLineParser parser = new BasicParser();
@@ -63,13 +62,15 @@ public class CmdLineParser implements Serializable {
 					"Configuration file is a directory: " + cmdLine.getOptionValue(DiPConfiguration.CONFIG_FILE));
 		} else if (!new File(cmdLine.getOptionValue(DiPConfiguration.CONFIG_FILE)).exists()) {
 			getHelpStackTrace();
-			throw new DataIngestException("Configuration file missing at: " + cmdLine.getOptionValue(DiPConfiguration.CONFIG_FILE));
+			throw new DataIngestException(
+					"Configuration file missing at: " + cmdLine.getOptionValue(DiPConfiguration.CONFIG_FILE));
 		} else {
 			Properties properties = new Properties();
 			try {
 				properties.load(new FileInputStream(new File(cmdLine.getOptionValue(DiPConfiguration.CONFIG_FILE))));
 				appArgs.setProperties(properties);
 			} catch (IOException e) {
+				logger.error("Exception raised", e);
 				throw new DataIngestException("Error while loading configuration file: " + e.getMessage());
 			}
 		}
@@ -77,22 +78,15 @@ public class CmdLineParser implements Serializable {
 
 	public Properties readFromClasspath() throws DataIngestException {
 		logger.warn("Configuration file missing. Reading default properties file.");
-		InputStream is = null;
-		try {
-			Properties properties = new Properties();
-			is = this.getClass().getResourceAsStream(DiPConfiguration.DEFAULT_CONFIG_FILE);
+		Properties properties = new Properties();
+		try (InputStream is = this.getClass().getResourceAsStream(DiPConfiguration.DEFAULT_CONFIG_FILE);) {
 			properties.load(is);
 			return properties;
-		} catch (FileNotFoundException e) {
-			throw new DataIngestException("File not found: " + e.getLocalizedMessage());
 		} catch (IOException e) {
+			logger.error("Exception raise", e);
 			throw new DataIngestException("Error while reading file: " + e.getLocalizedMessage());
-		} finally {
-			try {
-				is.close();
-			} catch (IOException e) {
-			}
 		}
+
 	}
 
 	private Options getOptions() {
