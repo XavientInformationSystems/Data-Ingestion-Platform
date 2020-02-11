@@ -224,7 +224,7 @@
 		<repository>
 			<id>hortonwork-repos</id>
 			<name>Hortonwork Repos</name>
-			<url>http://repo.hortonworks.com/content/repositories/releases/</url>
+			<url>https://repo.hortonworks.com/content/repositories/releases/</url>
 		</repository>
 		<repository>
 			<id>scala-tools.org</id>
@@ -243,7 +243,7 @@
 		<pluginRepository>
 			<id>scala-tools.org</id>
 			<name>Scala-tools Maven2 Repository</name>
-			<url>http://scala-tools.org/repo-releases</url>
+			<url>https://scala-tools.org/repo-releases</url>
 		</pluginRepository>
 	</pluginRepositories>
 
