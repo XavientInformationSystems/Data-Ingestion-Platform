@@ -98,7 +98,7 @@
 		<repository>
 			<id>HDPReleases</id>
 			<name>HDP Releases</name>
-			<url>http://repo.hortonworks.com/content/repositories/public</url>
+			<url>https://repo.hortonworks.com/content/repositories/public</url>
 			<layout>default</layout>
 			<releases>
 				<enabled>true</enabled>
@@ -114,7 +114,7 @@
 		<repository>
 			<id>HDPJetty</id>
 			<name>Hadoop Jetty</name>
-			<url>http://repo.hortonworks.com/content/repositories/jetty-hadoop/</url>
+			<url>https://repo.hortonworks.com/content/repositories/jetty-hadoop/</url>
 			<layout>default</layout>
 			<releases>
 				<enabled>true</enabled>
